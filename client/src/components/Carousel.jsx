@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Data from './fake'
 
 const Carousel = () => {
   const [posts, setPosts] = useState([]);
@@ -20,7 +21,7 @@ const Carousel = () => {
       setError(error.message);
     }
   };
-
+// stop trying to make it compateble for the backend the backend and things that are related to it are my problem you just focus on building a sexy ui 
   const handleNext = () => {
     setCurrentPostIndex((prevIndex) => (prevIndex + 1) % posts.length);
   };
@@ -41,10 +42,13 @@ const Carousel = () => {
     <div className='flex justify-between w-4/5 mx-auto bg-blue-400'>
       <button onClick={handlePrev}>Previous</button>
       <div>
-        <h2>{posts[currentPostIndex]?.text}</h2>
-        {posts[currentPostIndex]?.photos && (
+        {/* another maping needed : tadi */}
+      {/* make the photos appear on top */}
+
+        <h2>{Data[0].text}</h2>
+        {Data[0]?.photos && (
           <div>
-            {posts[currentPostIndex].photos.map((photo, index) => (
+            {Data[0]?.photos.map((photo, index) => (
               <img key={index} src={photo} alt={`Photo ${index}`} />
             ))}
           </div>
