@@ -1,19 +1,20 @@
 const Data = [
     {
-    photos:["./image/dead.png",],
-    text:"Websites, Websites Websites dolores aperiam tempora,dolores aperiam tempora, dignissimos optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates. dignissimos optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates.",
+    photos:["./image/1.png",],
+    text:"optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates.",
     channelName:"tekva",
     },
     {
-    photos:["./image/dead.png",],
-    text:"Websites, Websites Websites dolores aperiam tempora,dolores aperiam tempora, dignissimos optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates. dignissimos optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates.",
+    photos:["./image/2.png",],
+    text:"Websites, Websites Websites dolores aperiam tempora,dolores aperiam tempora, ",
     channelName:"tekva",
     },
     {
-    photos:["./image/dead.png",],
-    text:"Websites, Websites Websites dolores aperiam tempora,dolores aperiam tempora, dignissimos optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates. dignissimos optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates.",
+    photos:["./image/3.png",],
+    text:"Websites,m maiores voluptates. dignissimos optio cupiditate vero eveniet tenetur voluptatem quisquam maiores voluptates.",
     channelName:"tekva",
-    }
+    },
+    
 ]
 
 export default Data

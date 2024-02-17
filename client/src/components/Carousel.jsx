@@ -1,61 +1,55 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Data from './fake'
+import { useState, useRef, useEffect } from 'react';
+import Data from './fake'; // Importing the provided data directly
 
 const Carousel = () => {
-  const [posts, setPosts] = useState([]);
-  const [currentPostIndex, setCurrentPostIndex] = useState(0);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [firstVisibleIndex, setFirstVisibleIndex] = useState(0);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    fetchData();
+    const handleScroll = () => {
+      const container = containerRef.current;
+      const scrollTop = container.scrollTop;
+      const itemHeight = container.firstChild.clientHeight;
+      const newFirstVisibleIndex = Math.floor(scrollTop / itemHeight);
+      setFirstVisibleIndex(newFirstVisibleIndex);
+    };
+
+    const container = containerRef.current;
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('/api/posts');
-      setPosts(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-// stop trying to make it compateble for the backend the backend and things that are related to it are my problem you just focus on building a sexy ui 
-  const handleNext = () => {
-    setCurrentPostIndex((prevIndex) => (prevIndex + 1) % posts.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentPostIndex((prevIndex) => (prevIndex - 1 + posts.length) % posts.length);
-  };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
-    <div className='flex justify-between w-4/5 mx-auto bg-blue-400'>
-      <button onClick={handlePrev}>Previous</button>
-      <div>
-        {/* another maping needed : tadi */}
-      {/* make the photos appear on top */}
-
-        <h2>{Data[0].text}</h2>
-        {Data[0]?.photos && (
-          <div>
-            {Data[0]?.photos.map((photo, index) => (
-              <img key={index} src={photo} alt={`Photo ${index}`} />
-            ))}
+    <div className='flex items-center overflow-y-auto mx-auto h-screen'>
+    <div className="overflow-y-auto p-4 md:p-9 mt-5 mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2">
+      <div className="overflow-y-auto p-4 md:p-9 ring-2 ring-[#3b82f6] rounded-lg mt-5" style={{ maxHeight: 'calc(100vh - 120px)' }} ref={containerRef}>
+        <div style={{ paddingTop: firstVisibleIndex * 100 + '%' }}></div>
+        {Data.map((post, index) => (
+          <div key={index} className={`pb-4 ${index === firstVisibleIndex ? 'border-b-2 border-blue-800' : ''}`}>
+            <div className='ring- rounded-lg mb-3 px-3 mx-3 '>
+              <div className="card px-3 mx-3">
+                {post.photos && (
+                  <div className="photo-container">
+                    {post.photos.map((photo, photoIndex) => (
+                      <img key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
+                    ))}
+                  </div>
+                )}
+                <div className="px-3 mx-3">
+                  <h2 className='ring-2 ring-[#3b82f6] rounded-lg py-3 px-7 text-xl md:text-3xl mt-5'>{post.text}</h2>
+                  <h1 className='bg-[#3b82f6] uppercase border-collapse rounded-lg py-2 px-4 text-white text-xl md:text-3xl mt-5 inline-flex items-center'>{post.channelName}</h1>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        ))}
       </div>
-      <button onClick={handleNext}>Next</button>
     </div>
+  </div>
+  
+  
   );
 };
 
