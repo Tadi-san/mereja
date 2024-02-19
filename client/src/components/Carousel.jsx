@@ -1,45 +1,47 @@
-import { useState, useRef, useEffect } from 'react';
+// import { useState, useRef, useEffect } from 'react';
 import Data from './fake'; // Importing the provided data directly
 
 const Carousel = () => {
-  const [firstVisibleIndex, setFirstVisibleIndex] = useState(0);
-  const containerRef = useRef(null);
+//   const [firstVisibleIndex, setFirstVisibleIndex] = useState(0);
+//   const containerRef = useRef(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const container = containerRef.current;
-      const scrollTop = container.scrollTop;
-      const itemHeight = container.firstChild.clientHeight;
-      const newFirstVisibleIndex = Math.floor(scrollTop / itemHeight);
-      setFirstVisibleIndex(newFirstVisibleIndex);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const container = containerRef.current;
+  //     const scrollTop = container.scrollTop;
+  //     const itemHeight = container.firstChild.clientHeight;
+  //     const newFirstVisibleIndex = Math.floor(scrollTop / itemHeight);
+  //     setFirstVisibleIndex(newFirstVisibleIndex);
+  //   };
 
-    const container = containerRef.current;
-    container.addEventListener('scroll', handleScroll);
-    return () => {
-      container.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  //   const container = containerRef.current;
+  //   container.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     container.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
   return (
-    <div className='flex items-center overflow-y-auto mx-auto h-screen'>
+    <div className='flex items-center overflow-y-auto h-fit'>
     <div className="overflow-y-auto p-4 md:p-9 mt-5 mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2">
-      <div className="overflow-y-auto p-4 md:p-9 ring-2 ring-[#3b82f6] rounded-lg mt-5" style={{ maxHeight: 'calc(100vh - 120px)' }} ref={containerRef}>
-        <div style={{ paddingTop: firstVisibleIndex * 100 + '%' }}></div>
+      <div className="p-1 sm:p-4 md:p-9 bg-[#20113f] rounded-lg mt-5 h-fit"  >
         {Data.map((post, index) => (
-          <div key={index} className={`pb-4 ${index === firstVisibleIndex ? 'border-b-2 border-blue-800' : ''}`}>
-            <div className='ring- rounded-lg mb-3 px-3 mx-3 '>
-              <div className="card px-3 mx-3">
+          <div key={index} >
+            <div className='rounded-lg mb-3 sm:px-3 sm:mx-3 '>
+              <div className="card py-3 px-2 rounded-lg bg-[#2f195fb9]">
                 {post.photos && (
-                  <div className="photo-container">
+                  <div className={post.photos.length < 2 ?"photo-container":"grid grid-cols-2"} >
                     {post.photos.map((photo, photoIndex) => (
-                      <img key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
+                      <img className='rounded-lg' key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
                     ))}
                   </div>
                 )}
-                <div className="px-3 mx-3">
-                  <h2 className='ring-2 ring-[#3b82f6] rounded-lg py-3 px-7 text-xl md:text-3xl mt-5'>{post.text}</h2>
-                  <h1 className='bg-[#3b82f6] uppercase border-collapse rounded-lg py-2 px-4 text-white text-xl md:text-3xl mt-5 inline-flex items-center'>{post.channelName}</h1>
+                <div className="flex">
+                  <h2 className='rounded-lg py-3 px-3 text-white text-md md:text-lg mt-5'>{post.text}
+                  <span className=' font-semibold font-mono text-blue-600'>
+                    <br></br>{post.channelName}</span>
+                  </h2>
+                  
                 </div>
               </div>
             </div>
