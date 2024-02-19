@@ -1,57 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import { useState, useRef, useEffect } from 'react';
+import Data from './fake'; // Importing the provided data directly
 
 const Carousel = () => {
-  const [posts, setPosts] = useState([]);
-  const [currentPostIndex, setCurrentPostIndex] = useState(0);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+//   const [firstVisibleIndex, setFirstVisibleIndex] = useState(0);
+//   const containerRef = useRef(null);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const container = containerRef.current;
+  //     const scrollTop = container.scrollTop;
+  //     const itemHeight = container.firstChild.clientHeight;
+  //     const newFirstVisibleIndex = Math.floor(scrollTop / itemHeight);
+  //     setFirstVisibleIndex(newFirstVisibleIndex);
+  //   };
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('/api/posts');
-      setPosts(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  const handleNext = () => {
-    setCurrentPostIndex((prevIndex) => (prevIndex + 1) % posts.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentPostIndex((prevIndex) => (prevIndex - 1 + posts.length) % posts.length);
-  };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  //   const container = containerRef.current;
+  //   container.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     container.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
   return (
-    <div className='flex justify-between w-4/5 mx-auto bg-blue-400'>
-      <button onClick={handlePrev}>Previous</button>
-      <div>
-        <h2>{posts[currentPostIndex]?.text}</h2>
-        {posts[currentPostIndex]?.photos && (
-          <div>
-            {posts[currentPostIndex].photos.map((photo, index) => (
-              <img key={index} src={photo} alt={`Photo ${index}`} />
-            ))}
+    <div className='flex items-center overflow-y-auto h-fit'>
+    <div className="overflow-y-auto p-4 md:p-9 mt-5 mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2">
+      <div className="p-1 sm:p-4 md:p-9 bg-[#20113f] rounded-lg mt-5 h-fit"  >
+        {Data.map((post, index) => (
+          <div key={index} >
+            <div className='rounded-lg mb-3 sm:px-3 sm:mx-3 '>
+              <div className="card py-3 px-2 rounded-lg bg-[#2f195fb9]">
+                {post.photos && (
+                  <div className={post.photos.length < 2 ?"photo-container":"grid grid-cols-2"} >
+                    {post.photos.map((photo, photoIndex) => (
+                      <img className='rounded-lg' key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
+                    ))}
+                  </div>
+                )}
+                <div className="flex">
+                  <h2 className='rounded-lg py-3 px-3 text-white text-md md:text-lg mt-5'>{post.text}
+                  <span className=' font-semibold font-mono text-blue-600'>
+                    <br></br>{post.channelName}</span>
+                  </h2>
+                  
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        ))}
       </div>
-      <button onClick={handleNext}>Next</button>
     </div>
+  </div>
+  
+  
   );
 };
 

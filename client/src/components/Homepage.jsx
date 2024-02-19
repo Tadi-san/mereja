@@ -1,69 +1,110 @@
-import  { useRef, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import axios from "axios";
 
-const Homepage = () => {
+function App() {
+  const Fields = ["Events", "Job", "Code"]
+  const [data, setData] = useState()
   const containerRef = useRef(null);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const handleScroll = () => {
-    if (containerRef.current) {
-      setScrollLeft(containerRef.current.scrollLeft);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  async function handleClick(ev, field) {
+    ev.preventDefault();
+    try {
+      const response = await axios.post('/data', { field });
+      setData(response.data);
+    } catch (error) {
+      console.error('Error retrieving data:', error);
     }
-  };
+  }
 
-  const handleClick = (index) => {
-    switch (index) {
-      case 0:
-        // Action for button 1
-        console.log("Button 1 clicked, performing action 1");
-        break;
-      case 1:
-        // Action for button 2
-        console.log("Button 2 clicked, performing action 2");
-        break;
-      case 2:
-        // Action for button 3
-        console.log("Button 3 clicked, performing action 3");
-        break;
-      case 3:
-        // Action for button 4
-        console.log("Button 4 clicked, performing action 4");
-        break;
-      default:
-        // Default action
-        console.log(`Button ${index + 1} clicked, performing default action`);
-        break;
-    }
-  };
+  useEffect(() => {
+    const container = containerRef.current;
 
+    const handleMouseDown = (event) => {
+      setIsDragging(true);
+      setStartX(event.pageX);
+      setScrollOffset(container.scrollLeft);
+    };
+
+    const handleMouseMove = (event) => {
+      if (!isDragging) return;
+      const x = event.pageX - startX;
+      container.scrollLeft = scrollOffset - x;
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      container.removeEventListener('mousedown', handleMouseDown);
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, scrollOffset, startX]);
+  
   return (
-    <div className="flex items-center overflow-x-auto w-3/6 mt-6 mx-auto">
+    <div className=' flex flex-col items-center bg-[#180D30]'>
+    <div className="flex items-center justify-center w-full h-fit fixed bg-[#160c2c]  p-1">
       <div
-        className="flex space-x-4 p-9"
+        className="flex gap-2 rounded-2xl mt-3 sm:mt-6 sm:w-3/6 bg-[#20113f] "
         ref={containerRef}
-        onScroll={handleScroll}
+        style={{
+          overflowX: 'hidden',
+          WebkitOverflowScrolling: 'touch',
+          scrollSnapType: 'x mandatory',
+          scrollBehavior: 'smooth',
+        }}
       >
-        {Array.from({ length: 20 }).map((_, index) => (
+        {Fields.map((field) => (
           <button
-            key={index}
-            className="px-2 py-2 w-6 md:w-32 lg:w-48 bg-blue-500 text-white rounded-md"
-            onClick={() => handleClick(index)}
+            key={field}
+            className="px-1 py-1 min-w-28 md:min-w-32 lg:min-w-48 bg-[#532ca2]  text-white rounded-md"
+            onClick={(ev) => handleClick(ev,field)}
           >
-             {index + 1}
+            {field}
           </button>
         ))}
       </div>
-      <div
-        className={`absolute top-0 left-0 h-full w-8 bg-gradient-to-r from-transparent to-white z-10 ${
-          scrollLeft > 0 ? 'visible' : 'invisible'
-        }`}
-      />
-      <div
-        className={`absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-transparent to-white z-10 ${
-          scrollLeft < containerRef.current?.scrollWidth - containerRef.current?.clientWidth ? 'visible' : 'invisible'
-        }`}
-      />
+    
+    </div>
+    {!data ? <div className=' text-black'>Pick a Category</div>:
+    <div className='flex items-center overflow-y-auto h-fit'>
+    <div className="overflow-y-auto p-4 md:p-9 mt-5 mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2">
+      <div className="p-1 sm:p-4 md:p-9 bg-[#20113f] rounded-lg mt-5 h-fit"  >
+        {data.map((post, index) => (
+          <div key={index} >
+            <div className='rounded-lg mb-3 sm:px-3 sm:mx-3 '>
+              <div className="card py-3 px-2 rounded-lg bg-[#2f195fb9]">
+                {post.photos && (
+                  <div className={post.photos.length < 2 ?"photo-container":"grid grid-cols-2"} >
+                    {post.imgLink.map((photo, photoIndex) => (
+                      <img className='rounded-lg' key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
+                    ))}
+                  </div>
+                )}
+                <div className="flex">
+                  <h2 className='rounded-lg py-3 px-3 text-white text-md md:text-lg mt-5'>{post.text}
+                  <span className=' font-semibold font-mono text-blue-600'>
+                    <br></br>{post.channelName}</span>
+                  </h2>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+}
     </div>
   );
-};
+}
 
-export default Homepage;
+export default App;
