@@ -12,20 +12,20 @@ client = TelegramClient('session_name', api_id, api_hash)
 async def main():
     await client.start(phone=phone_number)
 
-    channels = ['@eventinaddis', '@selfmadecoder', "@eventinaddis", "@freelance_ethio", "@josad_software",]  # List of channels
-
+    channels = ['@eventinaddis', '@selfmadecoder', "@eventinaddis", "@freelance_ethio", "@josad_software", '@Meda_Sport_Ethiopia', '@Ethio_Sport_Uefa', "@etv_news", "@Etv_zena_ETH"]  # List of channels
+    # channels = []
     for channel_name in channels:
         channel = await client.get_entity(channel_name)
-        message_photo = []
         photos = await client.get_messages(channel, None, filter=InputMessagesFilterPhotos)
         message_counter = 0  
 
         async for message in client.iter_messages(channel):
             if message.text:
                 message_counter += 1  
-                if message_counter > 2: 
+                if message_counter > 15: 
                     break
 
+                message_photo = []
                 photos = await client.get_messages(channel, ids=[message.id], filter=InputMessagesFilterPhotos)
                 
                 for photo in photos:
@@ -40,7 +40,7 @@ async def main():
         async for doc in client.iter_messages(channel, filter=InputMessagesFilterDocument):
             await client.download_media(doc)
             
-        if message_counter > 2: 
+        if message_counter > 15: 
             continue
         
 

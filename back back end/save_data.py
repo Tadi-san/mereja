@@ -15,30 +15,23 @@ async def upload_photos(message_photos):
     if message_photos == []:
         photos = [""]
         return photos
-    
-    for photo in message_photos:
-      cloud_path = "post/" + photo   
-      bucket = storage.bucket()
-      blob = bucket.blob(cloud_path)
-      blob.upload_from_filename(photo)
-      photos.append(cloud_path)
+    if message_photos:
+        for photo in message_photos:
+            cloud_path = "post/" + photo   
+            bucket = storage.bucket()
+            blob = bucket.blob(cloud_path)
+            blob.upload_from_filename(photo)
+            photos.append(cloud_path)
     
     return photos
 
-# async def delete_photos (message_photos):
+async def delete_photos (message_photos):
    
-#    for photo in message_photos:
-#       if os.path.exists(photo):
-#         os.remove(photo)
-#       else:
-#           continue
-    # print(f"File {file_path} does not exist.")
-          
-    #       print(f"Photo {photo} successfully deleted.")
-    #   except FileNotFoundError:
-    #       print(f"Photo {photo} not found.")
-    #   except PermissionError:
-    #       print(f"Unable to delete photo {photo}. Permission denied.")
+   for photo in message_photos:
+      if os.path.exists(photo):
+        os.remove(photo)
+      else:
+          continue
 
 
 async def events_posts(text, channel_name, message_photos):
@@ -48,6 +41,10 @@ async def events_posts(text, channel_name, message_photos):
         "@eventinaddis": "Events",
         "@freelance_ethio": "Job",
         "@josad_software": "Job",
+        '@Meda_Sport_Ethiopia':"Sport",
+        '@Ethio_Sport_Uefa':"Sport",
+        "@etv_news": "News",
+        "@Etv_zena_ETH": "News"
     }
     
     data_exists = False
@@ -65,4 +62,4 @@ async def events_posts(text, channel_name, message_photos):
             "channel": channel_name,
             "photos": photos
         })
-    # await delete_photos(message_photos)
+    await delete_photos(message_photos)

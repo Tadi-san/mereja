@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from "axios";
 
 function App() {
-  const Fields = ["Events", "Job", "Code"]
+  const Fields = ["Events", "Sport", "Code"]
   const [data, setData] = useState()
   const containerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -49,10 +49,10 @@ function App() {
   }, [isDragging, scrollOffset, startX]);
   
   return (
-    <div className=' flex flex-col items-center bg-[#180D30]'>
-    <div className="flex items-center justify-center w-full h-fit fixed bg-[#160c2c]  p-1">
+    <div className=' flex flex-col items-center bg-[#180D30] w-fit'>
+    <div className="flex items-center justify-center h-fit fixed bg-[#160c2c] w-full p-1">
       <div
-        className="flex gap-2 rounded-2xl mt-3 sm:mt-6 sm:w-3/6 bg-[#20113f] "
+        className="flex gap-2 rounded-2xl mt-3 sm:mt-6 sm:w-3/6 bg-[#20113f] justify-center"
         ref={containerRef}
         style={{
           overflowX: 'hidden',
@@ -73,16 +73,20 @@ function App() {
       </div>
     
     </div>
-    {!data ? <div className=' text-black'>Pick a Category</div>:
-    <div className='flex items-center overflow-y-auto h-fit'>
+    {!data ?
+     <div className=' w-full bg-[#20113f] h-screen text-3xl flex justify-center items-center'>
+      <span className=' text-white font-semibold '>{"Pick a Category"} </span>
+      </div>
+      :
+    <div className='flex items-center overflow-y-auto w-fit h-fit'>
     <div className="overflow-y-auto p-4 md:p-9 mt-5 mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2">
       <div className="p-1 sm:p-4 md:p-9 bg-[#20113f] rounded-lg mt-5 h-fit"  >
         {data.map((post, index) => (
           <div key={index} >
             <div className='rounded-lg mb-3 sm:px-3 sm:mx-3 '>
-              <div className="card py-3 px-2 rounded-lg bg-[#2f195fb9]">
+              <div className="card py-3 px-2 rounded-lg bg-[#2f195fb9] flex flex-col items-center">
                 {post.photos && (
-                  <div className={post.photos.length < 2 ?"photo-container":"grid grid-cols-2"} >
+                  <div className={post.photos.length < 2 ?"photo-container w-[400px]":"grid grid-cols-2"} >
                     {post.imgLink.map((photo, photoIndex) => (
                       <img className='rounded-lg' key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
                     ))}
@@ -90,8 +94,8 @@ function App() {
                 )}
                 <div className="flex">
                   <h2 className='rounded-lg py-3 px-3 text-white text-md md:text-lg mt-5'>{post.text}
-                  <span className=' font-semibold font-mono text-blue-600'>
-                    <br></br>{post.channelName}</span>
+                  <span className=' font-semibold font-mono text-blue-400'>
+                    <br></br>{post.channel}</span>
                   </h2>
                   
                 </div>
