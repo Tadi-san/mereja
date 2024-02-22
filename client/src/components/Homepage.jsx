@@ -49,7 +49,7 @@ function App() {
   }, [isDragging, scrollOffset, startX]);
   
   return (
-    <div className=' flex flex-col items-center bg-[#180D30] w-fit'>
+    <div className={ !data?"w-full sm:w-fit":'flex flex-col items-center bg-[#180D30] w-fit sm:w-full'}>
     <div className="flex items-center justify-center h-fit fixed bg-[#160c2c] w-full p-1">
       <div
         className="flex gap-2 rounded-2xl mt-3 sm:mt-6 sm:w-3/6 bg-[#20113f] justify-center"
@@ -74,7 +74,7 @@ function App() {
     
     </div>
     {!data ?
-     <div className=' w-full bg-[#20113f] h-screen text-3xl flex justify-center items-center'>
+     <div className={'bg-[#20113f] h-screen w-screen text-3xl flex justify-center items-center'}>
       <span className=' text-white font-semibold '>{"Pick a Category"} </span>
       </div>
       :
@@ -88,7 +88,7 @@ function App() {
                 {post.photos && (
                   <div className={post.photos.length < 2 ?"photo-container w-[400px]":"grid grid-cols-2"} >
                     {post.imgLink.map((photo, photoIndex) => (
-                      <img className='rounded-lg' key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
+                      photo && <img className='rounded-lg' key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
                     ))}
                   </div>
                 )}
