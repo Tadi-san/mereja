@@ -54,6 +54,7 @@ function App() {
     };
   }, [isDragging, scrollOffset, startX]);
 
+  
   return (
     <div className={`${darkMode && "dark"}`}>
     <div
