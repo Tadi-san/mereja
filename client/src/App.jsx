@@ -3,7 +3,7 @@ import axios from "axios";
 
 function App() {
 
-axios.defaults.baseURL = "https://mereja-9txb-api.vercel.app"
+axios.defaults.baseURL = "https://mereja-1.onrender.com"
 axios.defaults.withCredentials = true;
 
   return (
