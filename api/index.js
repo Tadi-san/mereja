@@ -5,17 +5,15 @@ const serviceAccount = require(__dirname +'/cred/credentials.json');
 // const db = admin.firestore();
 const app = express();
 
-
-const corsOptions = {
-  origin: 'https://mereja-virid.vercel.app',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  credentials: true // Allow credentials (cookies, authorization headers, etc.)
-};
-
-app.use(cors(corsOptions));
-
+const devOrigin = ['https://mereja-virid.vercel.app'];
+app.use(
+  cors({
+    origin:devOrigin,
+    optionsSuccessStatus: 200,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  }),
+);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
