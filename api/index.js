@@ -7,7 +7,7 @@ const app = express();
 
 
 const corsOptions = {
-  origin: '*',
+  origin: 'https://mereja-virid.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
   optionsSuccessStatus: 204,
