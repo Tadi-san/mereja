@@ -88,7 +88,7 @@ function App() {
                 {post.photos && (
                   <div className={post.photos.length < 2 ?"photo-container w-[400px]":"grid grid-cols-2"} >
                     {post.imgLink.map((photo, photoIndex) => (
-                      photo && <img className='rounded-lg' key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
+                      photo && <img className='rounded-lg' loading="lazy" key={photoIndex} src={photo} alt={`Photo ${photoIndex}`} />
                     ))}
                   </div>
                 )}
