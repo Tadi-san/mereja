@@ -55,7 +55,7 @@ function App() {
 
   
   return (
-    <div className={`${darkMode && "dark"}` +" overflow-x-clip"}>
+    <div className={`${darkMode && "dark"}` +" md:overflow-x-clip"}>
     <div
       className={
         !data
