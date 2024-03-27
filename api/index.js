@@ -5,7 +5,7 @@ const serviceAccount = require(__dirname +'/cred/credentials.json');
 // const db = admin.firestore();
 const app = express();
 
-const devOrigin = ['https://mereja-virid.vercel.app', "https://mereja-git-main-tadi-sans-projects.vercel.app", "https://mereja-ki4p12b00-tadi-sans-projects.vercel.app/"];
+const devOrigin = ['https://mereja-virid.vercel.app'];
 app.use(
   cors({
     origin:devOrigin,

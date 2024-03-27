@@ -3,7 +3,7 @@ import axios from "axios";
 
 function App() {
 
-axios.defaults.baseURL = "https://mereja-1.onrender.com"
+axios.defaults.baseURL = "http://localhost:3000"
 axios.defaults.withCredentials = true;
 
   return (

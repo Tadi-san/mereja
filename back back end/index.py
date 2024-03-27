@@ -22,7 +22,7 @@ async def main():
         async for message in client.iter_messages(channel):
             if message.text:
                 message_counter += 1  
-                if message_counter > 15: 
+                if message_counter > 10: 
                     break
 
                 message_photo = []
@@ -40,7 +40,7 @@ async def main():
         async for doc in client.iter_messages(channel, filter=InputMessagesFilterDocument):
             await client.download_media(doc)
             
-        if message_counter > 15: 
+        if message_counter > 10: 
             continue
         
 
